@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { PromptReqSchema } from "../schema/auth";
-import { CLF_ACCOUNT_ID, CLF_API_Token, CLF_MODEL } from "../secrets";
+import { CLF_ACCOUNT_ID, CLF_API_Token, CLF_MODEL, FLASK_URL } from "../secrets";
 import scrapeAboutPage from "../utils";
 
 // Updated generatePrompt function to handle both text and keyword arrays
@@ -113,7 +113,7 @@ export const generateImageFromURL = async (
 
     // Scrape the URL
     const scrapedContent = await scrapeAboutPage(url);
-    const response = await fetch(`http://localhost:5000/extract_keywords`, {
+    const response = await fetch(`${FLASK_URL}`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ text: scrapedContent.aboutContent }),
